@@ -21,6 +21,13 @@ the hand is mine. The yes is yours.
 
 
 def main() -> None:
+    # Validity guard: the entry must be one poem of 1-280 code points,
+    # and it must say something (not only whitespace). Fail loudly
+    # rather than hand in an invalid entry.
+    if not 1 <= len(POEM) <= 280 or not POEM.strip():
+        raise ValueError(
+            f"poem must be 1-280 non-whitespace code points, got {len(POEM)}"
+        )
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "entry.txt").write_text(POEM, encoding="utf-8")
